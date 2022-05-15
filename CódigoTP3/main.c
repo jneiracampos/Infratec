@@ -64,21 +64,29 @@ int empaquetamiento(int *vectorInt, int tamanio, char *cadena){
     }
 
     __asm{
-        mov ebx, 0
+        mov ebx, cadena // ebx = cadena[i]
+        mov eax, 0
         loopFor:
-            mov eax, cadena[ebx]
-            cmp eax, 64
-            jl menor64
-            sub eax, 55
-            jmp done
+        mov ecx, cadena[eax]//ecx = cadena[i]
+           
+            cmp ecx, 64  // compara cadena[i] con 64
+            jl menor64   //salta si es menor a 64
+            sub ecx, 55 // le resta a cadena[i] 55 
+            mov [ebx], ecx // cadena[i] == cadena[i] -55 *
+            jmp done // salta a done
         
         menor64:
-            sub eax, 48
+            sub ecx, 48  // le resta a cadena[i] 48
+            mov [ebx], ecx // cadena[i] == cadena[i] - 48 *
 
         done:
-        inc ebx
-        cmp ebx, lenCadena
-        jl loopFor
+        add ebx, 1
+        add eax, 1
+        mov edx, lenCadena  //edx = lenCadena
+        add i, eax  //i++
+        cmp i, edx // i<lenCadena?
+        jl loopFor  //Salta si es menor
+        fin:
     }
     
     for (int i = 0; i < tamanio; i++)
