@@ -7,6 +7,10 @@
 //CODIGO: 202111276
 //CORREO: p.dazad@uniandes.edu.co
 
+//NOMBRE: Sofia Torres Ramirez
+//CODIGO: 202014872
+//CORREO: s.torres21@uniandes.edu.co
+
 void main()
 {
     int tamanioVector; //Se declara la variable que guarda el tamaño del vector
@@ -82,6 +86,30 @@ int empaquetamiento(int *vectorInt, int tamanio, char *cadena){
             caracter |= cadena[j]; //Se añade el nuevo hexa.
         }
         vectorInt[i] = caracter;  //Finalmente, se agrega el caracter que se modificó a la posición i del vector.
+    }
+
+    __asm{
+        mov eax, 0
+        loop:
+            imul eax, 8
+            mov ebx, cadena[eax]
+            mov, ecx, 1
+            add, ecx, eax
+            cmp ecx, 8
+            jg finloop
+            shl ebx, 4
+            //cmp ebx, cadena[ecx]
+            inc eax
+            jmp loop
+            finloop:
+        mov edx,vectorInt[eax]
+        mov caracter, edx
+
+
+        
+
+
+
     }
 
     //Se recorre el vector para imprimir cada elemento por línea.
