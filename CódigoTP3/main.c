@@ -11,6 +11,10 @@
 //CODIGO: 202014872
 //CORREO: s.torres21@uniandes.edu.co
 
+//NOMBRE: Juan Camilo Neira Campos
+//CODIGO: 201922746
+//CORREO: j.neira@uniandes.edu.co
+
 void main()
 {
     int tamanioVector; //Se declara la variable que guarda el tamaño del vector
@@ -104,11 +108,6 @@ int empaquetamiento(int *vectorInt, int tamanio, char *cadena){
             finloop:
         mov edx,vectorInt[eax]
         mov caracter, edx
-
-
-        
-
-
 
     }
 
