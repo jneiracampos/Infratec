@@ -88,26 +88,33 @@ int empaquetamiento(int *vectorInt, int tamanio, char *cadena){
         {
             caracter = caracter << 4; //Se desplaza a la izquierda ya que los hexa son de 4 bits.
             caracter |= cadena[j]; //Se añade el nuevo hexa.
+            caracter  = cadena[j] | caracter
         }
         vectorInt[i] = caracter;  //Finalmente, se agrega el caracter que se modificó a la posición i del vector.
     }
 
+    int i = 0;
+
     __asm{
-        mov eax, 0
-        loop:
-            imul eax, 8
-            mov ebx, cadena[eax]
-            mov, ecx, 1
-            add, ecx, eax
-            cmp ecx, 8
-            jg finloop
-            shl ebx, 4
-            //cmp ebx, cadena[ecx]
+        firstLoop:
+            move eax, 0 //i
+            imul eax, 8 //i * 8
+            mov ebx, cadena[eax] //Caracter
+            loop:
+                mov ecx, 1
+                add ecx, eax //j
+                shl ebx, 4
+                OR cadena[ecx], ebx
+                inc ecx
+                mov edx, 8
+                add edx, eax
+                cmp ecx, edx //j < 8 + (i * 8)
+                jl loop
+            mov vectorInt[eax], ebx
             inc eax
-            jmp loop
-            finloop:
-        mov edx,vectorInt[eax]
-        mov caracter, edx
+            mov edx, tamanio
+            cmp eax, edx
+            jl firstLoop
 
     }
 
@@ -119,5 +126,4 @@ int empaquetamiento(int *vectorInt, int tamanio, char *cadena){
     
     return 0;
 
-}
-    
+}   
