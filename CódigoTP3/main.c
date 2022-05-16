@@ -112,7 +112,7 @@ int empaquetamiento(int *vectorInt, int tamanio, char *cadena){
             mov ebx, cadena
             mov eax, i //i
             imul eax, 8 //(i * 8)
-            movzx cl, [ebx+eax] //ecx = cadena[i * 8] = caracter
+            movzx cl, [ebx+eax] //cl = cadena[i * 8] = caracter
             forj:
                 shl cl, 4
                 mov edx, j
