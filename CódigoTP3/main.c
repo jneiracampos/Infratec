@@ -102,28 +102,27 @@ int empaquetamiento(int *vectorInt, int tamanio, char *cadena){
         }
         vectorInt[i] = caracter;  //Finalmente, se agrega el caracter que se modificó a la posición i del vector.
     }
-   
     */
+
    int i = 0;
+   int j = 1;
     
     __asm {
-        
         fori:
             mov ebx, cadena
             mov eax, i //i
-            imul eax, 8
-            movzx ecx, [ebx+eax] //cl = cadena[i * 8] = caracter
+            imul eax, 8 //(i * 8)
+            movzx cl, [ebx+eax] //ecx = cadena[i * 8] = caracter
             forj:
-                shl ecx, 4
-                mov edx, 8
+                shl cl, 4
+                mov edx, j
                 add edx, eax
-                inc eax //j = 1 + (i * 8)
-                cmp eax, edx //j < 8 + (i * 8)
-                jl forj
+                or cl, [ebx+edx]
+                
             mov ebx, vectorInt
             mov eax, i
-            mov [ebx+eax], ecx
-            inc eax
+            mov [ebx+eax], cl
+            add eax, 1
             mov i, eax
             mov edx, tamanio
             cmp i, edx //i < tamanio
