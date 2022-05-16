@@ -52,7 +52,7 @@ int empaquetamiento(int *vectorInt, int tamanio, char *cadena){
     int lenCadena = strlen(cadena);
 
     //Inicia recorrido de la cadena para convertir de decimal a binario en un byte.
-          for (int i = 0; i < lenCadena; i++)
+         /* for (int i = 0; i < lenCadena; i++)
     {
         if (cadena[i] > 64)
         {
@@ -61,31 +61,31 @@ int empaquetamiento(int *vectorInt, int tamanio, char *cadena){
         {
             cadena[i] = cadena[i] - 48;
         }    
-    }
+    }*/
 
     __asm{
-        mov ebx, cadena // ebx = cadena[i]
-        mov eax, 0
+        mov ebx, cadena // ebx = cadena
+        mov eax, 0 //contador
         loopFor:
-        mov ecx, cadena[eax]//ecx = cadena[i]
-           
-            cmp ecx, 64  // compara cadena[i] con 64
-            jl menor64   //salta si es menor a 64
-            sub ecx, 55 // le resta a cadena[i] 55 
-            mov [ebx], ecx // cadena[i] == cadena[i] -55 *
-            jmp done // salta a done
-        
-        menor64:
-            sub ecx, 48  // le resta a cadena[i] 48
-            mov [ebx], ecx // cadena[i] == cadena[i] - 48 *
+            movzx cl, [ebx+eax]//cl = cadena[i]
+            cmp cl,0 
+            je done
 
-        done:
-        add ebx, 1
-        add eax, 1
-        mov edx, lenCadena  //edx = lenCadena
-        add i, eax  //i++
-        cmp i, edx // i<lenCadena?
-        jl loopFor  //Salta si es menor
+            cmp cl, 64 // compara cadena[i] con 64
+            jl menor64 // cadena[i] < 64? Salta si es menor
+                sub cl, 55  // le resta a cadena[i] 55 
+                mov [ebx+eax], cl //cadena[i] = cadena[i] -55
+                jmp done 
+            menor64:
+                sub cl, 48 // le resta a cadena[i] 48 
+                mov [ebx+eax], cl //cadena[i] = cadena[i] -48
+
+            done:
+
+            add eax,1 //incrementa contador
+            cmp eax,lenCadena // contador < lenCadena?
+            je fin // Si es igual finaliza
+            jl loopFor // Si es menor continua el bucle
         fin:
     }
     
